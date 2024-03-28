@@ -1,0 +1,75 @@
+﻿using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using Travel_agency_Lyapynova.Models;
+
+namespace Travel_agency_Lyapynova
+{
+    /// <summary>
+    /// Логика взаимодействия для AddEmplyee.xaml
+    /// </summary>
+    public partial class AddEmplyee : Page
+    {
+        public AddEmplyee()
+        {
+            InitializeComponent();
+        }
+
+        private void btn_save_employee_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                User user = new User();
+                user.Login = tb_login.Text; 
+                user.Password = tb_password.Text; 
+
+                TravelAgentsPr21101LyapynovaContext.GetContext().Users.Add(user);
+                TravelAgentsPr21101LyapynovaContext.GetContext().SaveChanges();
+
+                int userId = user.UserId;
+
+                Employee employee = new Employee();
+                employee.UserId = userId; 
+                employee.Surname = tb_surname.Text;
+                employee.Name = tb_name.Text;
+                employee.Patronymic = tb_patronymic.Text;
+                employee.PhoneNumber = tb_number_phone.Text;
+                employee.Position = (Position)cb_position.SelectedItem;
+
+                TravelAgentsPr21101LyapynovaContext.GetContext().Employees.Add(employee);
+                TravelAgentsPr21101LyapynovaContext.GetContext().SaveChanges();
+
+                MessageBox.Show("Сотрудник успешно добавлен.", "Успех", MessageBoxButton.OK);
+                NavigationService.GoBack();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButton.OK);
+            }
+        }
+
+        private void btn_save_image_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image Files (*.png; *.jpg; *.jpeg; *.bmp)|*.png; *.jpg; *.jpeg; *.bmp|All Files (*.*)|*.*";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string imagePath = openFileDialog.FileName;
+                image.Source = new BitmapImage(new Uri(imagePath));
+            }
+        }
+    }
+}
