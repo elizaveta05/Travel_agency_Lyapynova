@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Travel_agency_Lyapynova"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="800" MinHeight="450" MinWidth="800"
       Title="Director" Background="AliceBlue">
 
     <Grid>
@@ -17,6 +17,11 @@
           SelectedIndex="-1" SelectionChanged="cb_filter_SelectionChanged" Height="20" Background="#FF9BB9EB">
             <ComboBoxItem Content="По алфавиту(А-Я)"/>
             <ComboBoxItem Content="По алфавиту(Я-А)"/>
+            <ComboBoxItem Content="Бухгалтер"/>
+            <ComboBoxItem Content="Специалист по работе с клиентами"/>
+            <ComboBoxItem Content="Руководитель агентства"/>
+            <ComboBoxItem Content="Директор"/>
+            <ComboBoxItem Content="Менеджер по продажам"/>
         </ComboBox>
         <ListView Name="employeeListView" Grid.Column="0" Margin="6,71,-1,2" d:ItemsSource="{d:SampleData ItemCount=1}" SelectionChanged="employeeListView_SelectionChanged">
             <ListView.ItemContainerStyle>

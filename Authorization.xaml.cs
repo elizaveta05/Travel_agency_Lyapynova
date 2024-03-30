@@ -48,7 +48,7 @@ namespace Travel_agency_Lyapynova
             try
             {
                 var employee = TravelAgentsPr21101LyapynovaContext.GetContext().Employees.FirstOrDefault(e => e.UserId == user.UserId);
-                var suppliers = TravelAgentsPr21101LyapynovaContext.GetContext().Suppliers.FirstOrDefault(s => s.UserId == user.UserId);
+                var supplier = TravelAgentsPr21101LyapynovaContext.GetContext().Suppliers.FirstOrDefault(s => s.UserId == user.UserId);
 
                 if (employee != null)
                 {
@@ -65,9 +65,9 @@ namespace Travel_agency_Lyapynova
                             break;
                     }
                 }
-                else if (suppliers != null)
+                else if (supplier != null)
                 {
-                    NavigationService.Navigate(new SupplierPage());
+                    NavigationService.Navigate(new SupplierPage(supplier));
                 }
                 else
                 {

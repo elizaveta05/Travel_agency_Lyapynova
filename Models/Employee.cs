@@ -30,14 +30,14 @@ public partial class Employee
     {
         List<ValidationResult> errors = new List<ValidationResult>();
 
-        if (string.IsNullOrEmpty(Surname) && Surname.Length < 3 && Surname.Length > 50)
-            errors.Add(new ValidationResult("Фамилия должно быть от 3 до 50 символов."));
+        if (string.IsNullOrEmpty(Surname) || Surname.Length < 3 || Surname.Length > 50)
+            errors.Add(new ValidationResult("Фамилия должна быть от 3 до 50 символов.", new[] { nameof(Surname) }));
 
-        if (string.IsNullOrEmpty(Name) && Name.Length < 3 && Name.Length > 50)
-            errors.Add(new ValidationResult("Имя должно быть от 3 до 50 символов."));
+        if (string.IsNullOrEmpty(Name) || Name.Length < 3 || Name.Length > 50)
+            errors.Add(new ValidationResult("Имя должно быть от 3 до 50 символов.", new[] { nameof(Name) }));
 
         if (string.IsNullOrEmpty(PhoneNumber) || PhoneNumber.Length != 11)
-            errors.Add(new ValidationResult("Телефон должен состоять из 11 символов"));
+            errors.Add(new ValidationResult("Телефон должен состоять из 11 символов", new[] { nameof(PhoneNumber) }));
 
         return errors;
     }

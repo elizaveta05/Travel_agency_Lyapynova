@@ -17,6 +17,7 @@ public partial class User
     public virtual ICollection<Klient> Klients { get; set; } = new List<Klient>();
 
     public virtual ICollection<Supplier> Suppliers { get; set; } = new List<Supplier>();
+
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         List<ValidationResult> errors = new List<ValidationResult>();

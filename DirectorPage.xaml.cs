@@ -45,7 +45,6 @@ namespace Travel_agency_Lyapynova
                 employeeListView.ItemsSource = employees;
             }
         }
-
         private void cb_filter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxItem selectedItem = cb_filter.SelectedItem as ComboBoxItem;
@@ -54,19 +53,35 @@ namespace Travel_agency_Lyapynova
             {
                 string selectedOption = selectedItem.Content.ToString();
 
-                if (selectedOption == "По алфавиту(А-Я)")
+                switch (selectedOption)
                 {
-                    employees = employees.OrderBy(emp => emp.Surname).ToList();
-                }
-                else if (selectedOption == "По алфавиту(Я-А)")
-                {
-                    employees = employees.OrderByDescending(emp => emp.Surname).ToList();
+                    case "По алфавиту(А-Я)":
+                        employees = employees.OrderBy(emp => emp.Surname).ToList();
+                        break;
+                    case "По алфавиту(Я-А)":
+                        employees = employees.OrderByDescending(emp => emp.Surname).ToList();
+                        break;
+                    case "Бухгалтер":
+                        employees = employees.Where(emp => emp.Position.NamePositions == "Бухгалтер").ToList();
+                        break;
+                    case "Специалист по работе с клиентами":
+                        employees = employees.Where(emp => emp.Position.NamePositions == "Специалист по работе с клиентами").ToList();
+                        break;
+                    case "Руководитель агентства":
+                        employees = employees.Where(emp => emp.Position.NamePositions == "Руководитель агентства").ToList();
+                        break;
+                    case "Директор":
+                        employees = employees.Where(emp => emp.Position.NamePositions == "Директор").ToList();
+                        break;
+                    case "Менеджер по продажам":
+                        employees = employees.Where(emp => emp.Position.NamePositions == "Менеджер по продажам").ToList();
+                        break;
+                  
                 }
 
                 employeeListView.ItemsSource = employees;
             }
         }
-
         private void btn_poisk_Click(object sender, RoutedEventArgs e)
         {
             string search = tb_poisk.Text.Trim().ToLower();
