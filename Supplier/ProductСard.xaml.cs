@@ -54,34 +54,51 @@ namespace Travel_agency_Lyapynova
         }
         private void btn_save_Click(object sender, RoutedEventArgs e)
         {
-            tour.Name = tb_name.Text;
-            tour.Descriptions = tb_discription.Text;
-            tour.Duration = int.Parse(tb_duration.Text);
-            tour.Cost = decimal.Parse(tb_cost.Text);
-            tour.CountryId = TravelAgentsPr21101LyapynovaContext.GetContext().Countries
-               .OrderBy(p => p.CountryId)
-               .Select(p => p.CountryId)
-               .ToList()[cb_country.SelectedIndex];
-            tour.CityId = TravelAgentsPr21101LyapynovaContext.GetContext().Cities
-           .OrderBy(p => p.CityId)
-           .Select(p => p.CityId)
-           .ToList()[cb_city.SelectedIndex];
-            tour.CityId = TravelAgentsPr21101LyapynovaContext.GetContext().Suppliers
-         .OrderBy(p => p.SupplierId)
-         .Select(p => p.SupplierId)
-         .ToList()[cb_supplier.SelectedIndex];
-            var validationResults = tour.Validate(new ValidationContext(tour));
-            if (validationResults.Any())
+            if (tour.SupplierId == supplier.SupplierId)
             {
-                string errorMessage = string.Join("\n", validationResults.Select(r => r.ErrorMessage));
-                MessageBox.Show("Ошибка при сохранении данных: " + errorMessage);
-                return;
+                tour.Name = tb_name.Text;
+                tour.Descriptions = tb_discription.Text;
+                tour.Duration = int.Parse(tb_duration.Text);
+                tour.Cost = decimal.Parse(tb_cost.Text);
+                tour.CountryId = TravelAgentsPr21101LyapynovaContext.GetContext().Countries
+                   .OrderBy(p => p.CountryId)
+                   .Select(p => p.CountryId)
+                   .ToList()[cb_country.SelectedIndex];
+                tour.CityId = TravelAgentsPr21101LyapynovaContext.GetContext().Cities
+               .OrderBy(p => p.CityId)
+               .Select(p => p.CityId)
+               .ToList()[cb_city.SelectedIndex];
+                tour.CityId = TravelAgentsPr21101LyapynovaContext.GetContext().Suppliers
+             .OrderBy(p => p.SupplierId)
+             .Select(p => p.SupplierId)
+             .ToList()[cb_supplier.SelectedIndex];
+                var validationResults = tour.Validate(new ValidationContext(tour));
+                if (validationResults.Any())
+                {
+                    string errorMessage = string.Join("\n", validationResults.Select(r => r.ErrorMessage));
+                    MessageBox.Show("Ошибка при сохранении данных: " + errorMessage);
+                    return;
+                }
+                TravelAgentsPr21101LyapynovaContext.GetContext().SaveChanges();
+
+                MessageBox.Show("Данные о туре успешно сохранены.", "Успех", MessageBoxButton.OK);
+            } else
+            {
+                Close();
+                MessageBox.Show("Вы не являетесь поставщиком этого тура, поэтому вы можете только просматривать его данные!", "Ошибка", MessageBoxButton.OK);
             }
-            TravelAgentsPr21101LyapynovaContext.GetContext().SaveChanges();
-
-            MessageBox.Show("Данные о туре успешно сохранены.", "Успех", MessageBoxButton.OK);
+            
         }
-
+        private void Close()
+        {
+            tb_name.IsEnabled = false;
+            tb_discription.IsEnabled = false;
+            tb_duration.IsEnabled = false;
+            tb_cost.IsEnabled = false;
+            cb_city.IsEnabled = false;
+            cb_supplier.IsEnabled = false;
+            cb_country.IsEnabled= false;
+        }
         private void btn_delete_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить этот тур?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);

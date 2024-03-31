@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace Travel_agency_Lyapynova.Models;
 
@@ -30,14 +31,17 @@ public partial class Employee
     {
         List<ValidationResult> errors = new List<ValidationResult>();
 
-        if (string.IsNullOrEmpty(Surname) || Surname.Length < 3 || Surname.Length > 50)
-            errors.Add(new ValidationResult("Фамилия должна быть от 3 до 50 символов.", new[] { nameof(Surname) }));
+        if (string.IsNullOrEmpty(Surname) || !Regex.IsMatch(Surname, "^[a-zA-Zа-яА-Я]+$") || Surname.Length < 3 || Surname.Length > 50)
+            errors.Add(new ValidationResult("Фамилия должна состоять только из букв и быть от 3 до 50 символов.", new[] { nameof(Surname) }));
 
-        if (string.IsNullOrEmpty(Name) || Name.Length < 3 || Name.Length > 50)
-            errors.Add(new ValidationResult("Имя должно быть от 3 до 50 символов.", new[] { nameof(Name) }));
+        if (string.IsNullOrEmpty(Name) || !Regex.IsMatch(Name, "^[a-zA-Zа-яА-Я]+$") || Name.Length < 3 || Name.Length > 50)
+            errors.Add(new ValidationResult("Имя должно состоять только из букв и быть от 3 до 50 символов.", new[] { nameof(Name) }));
+
+        if (!string.IsNullOrEmpty(Patronymic) && (!Regex.IsMatch(Patronymic, "^[a-zA-Zа-яА-Я]+$") || Patronymic.Length < 3 || Patronymic.Length > 50))
+            errors.Add(new ValidationResult("Отчество должно состоять только из букв и быть от 3 до 50 символов.", new[] { nameof(Patronymic) }));
 
         if (string.IsNullOrEmpty(PhoneNumber) || PhoneNumber.Length != 11)
-            errors.Add(new ValidationResult("Телефон должен состоять из 11 символов", new[] { nameof(PhoneNumber) }));
+            errors.Add(new ValidationResult("Номер телефона должен состоять из 11 символов", new[] { nameof(PhoneNumber) }));
 
         return errors;
     }
